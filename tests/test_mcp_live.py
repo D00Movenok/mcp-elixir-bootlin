@@ -12,7 +12,7 @@ async def _run_live_checks() -> None:
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             init_result = await session.initialize()
-            assert init_result.serverInfo.name == "elixir-bootlin"
+            assert init_result.server_info.name == "elixir-bootlin"
 
             tools = await session.list_tools()
             tool_names = {tool.name for tool in tools.tools}
@@ -23,7 +23,7 @@ async def _run_live_checks() -> None:
             assert "list_versions" in tool_names
 
             projects_result = await session.call_tool("list_projects", {})
-            projects_structured = projects_result.structuredContent
+            projects_structured = projects_result.structured_content
             assert isinstance(projects_structured, dict)
             assert isinstance(projects_structured.get("projects"), list)
             assert projects_structured.get("count", 0) > 0
@@ -33,7 +33,7 @@ async def _run_live_checks() -> None:
                 "list_versions",
                 {"project": "linux", "max_results": 20},
             )
-            versions_structured = versions_result.structuredContent
+            versions_structured = versions_result.structured_content
             assert isinstance(versions_structured, dict)
             assert versions_structured.get("project") == "linux"
             assert isinstance(versions_structured.get("versions"), list)
@@ -43,7 +43,7 @@ async def _run_live_checks() -> None:
                 "autocomplete",
                 {"project": "linux", "prefix": "sched_c", "max_results": 5},
             )
-            auto_structured = auto_result.structuredContent
+            auto_structured = auto_result.structured_content
             assert isinstance(auto_structured, dict)
             assert auto_structured.get("project") == "linux"
             assert auto_structured.get("prefix") == "sched_c"
@@ -54,7 +54,7 @@ async def _run_live_checks() -> None:
                 "ident_lookup",
                 {"project": "linux", "ident": "sched_clock", "version": "latest", "max_results": 5},
             )
-            ident_structured = ident_result.structuredContent
+            ident_structured = ident_result.structured_content
             assert isinstance(ident_structured, dict)
             assert ident_structured.get("project") == "linux"
             assert ident_structured.get("ident") == "sched_clock"
@@ -66,7 +66,7 @@ async def _run_live_checks() -> None:
                 "get_raw_source",
                 {"project": "linux", "version": "latest", "path": "README"},
             )
-            raw_structured = raw_result.structuredContent
+            raw_structured = raw_result.structured_content
             assert isinstance(raw_structured, dict)
             assert raw_structured.get("project") == "linux"
             assert raw_structured.get("version") == "latest"

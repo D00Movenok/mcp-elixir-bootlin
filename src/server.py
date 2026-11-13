@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from elixir_client import ElixirClient
 from models import ElixirError
 
-mcp = FastMCP("elixir-bootlin")
+mcp = MCPServer("elixir-bootlin")
 
 
 @mcp.tool()
